@@ -1,0 +1,51 @@
+Hello all, i installed the acitoolkit and it's and amazing program to automate things
+so in that effort i want to create a bridge domain with specifics attributes, so i modify the options for bd.set_unknown_mac_unicast('flood')
+according to the class Bridge Domain in the acitoolkit.py -- but now i want to change for the garp option no enable by default
+
+so i tried this:
+
+1.- define the object in the class class BridgeDomain(BaseACIObject): 
+
+
+super(BridgeDomain, self).__init__(bd_name, parent)
+self.epMoveDetectMode = 'garp'
+
+2.- then i create a method to define the value for the garp
+
+    def set_epMoveDetectMode (self, epMoveDetectMode_value):
+        """
+        Set epmove detection garp
+        :param epMoveDetectMode_value:
+        """
+        valid_epMoveDetectMode  = ('garp')
+        if epMoveDetectMode_value not in valid_epMoveDetectMode :
+            raise ValueError('Elige si o no' % valid_epMoveDetectMode)
+        self.epMoveDetectMode = epMoveDetectMode_value
+        
+
+3.- the in the method:
+
+    def _populate_from_attributes(self, attributes):
+        """
+        Populates various attributes    ATRIBUTOS !! BRIDGE DOMAIN PRE-POPULADOS
+        :param attributes:
+        :return:
+        """
+
+    self.epMoveDetectMode  = attributes.get('epMoveDetectMode')
+
+even i defined the option in the script: aci-create-bd.py
+i got no errors, and the parameters bd.set_unknown_mac_unicast('flood') is change to flood in behalf of hardware proxy
+i need to modify another file apart from the file acitoolkit.py?
+
+please i need your help, i want to keep studying and modify the scripts to be more granular in the creation of bridge domains
+thanks for your time, i don't where to send this.
+
+
+    if args.address is None:
+        bd.set_arp_flood('yes')
+        bd.set_unicast_route('no')
+        bd.set_unknown_mac_unicast('flood')
+        bd.set_epMoveDetectMode = ('garp')
+        
+        
